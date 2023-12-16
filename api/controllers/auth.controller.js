@@ -10,5 +10,5 @@ export const signup = async (req, res) => {
     password: hashedPassword,
   });
   if (!user) return res.status(400).send("Error creating the user");
-  res.status(201).json({ msg: "Usre created successfully" });
+  res.status(201).json({ msg: "User created successfully" });
 };

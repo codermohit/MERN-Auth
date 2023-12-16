@@ -3,12 +3,40 @@ import { Link } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({});
+  const [errorData, setErrorData] = useState({ isError: false, errorMsg: "" });
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await fetch("http://localhost:3000/api/auth/signup", formData);
-    const data = await res.json();
-    console.log(data);
+    try {
+      //set loading(bool) and error(obj)
+      setLoading(true);
+      setErrorData((data) => ({ ...data, isError: false, errorMsg: "" }));
+      //POST the form data
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      //check for errors
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData);
+        throw new Error(errorData?.errorMsg || "Something went wrong!");
+      }
+      //returned data from server
+      //const data = await res.json();
+    } catch (error) {
+      setErrorData((err) => ({
+        ...err,
+        isError: true,
+        errorMsg: error.message,
+      }));
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleChange(e) {
@@ -40,9 +68,15 @@ function SignUp() {
           className="bg-slate-100 p-3 rounded-lg"
           onChange={handleChange}
         />
-        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+        >
           Sign up
         </button>
+        {errorData.isError && (
+          <p className="text-red-500">{errorData.errorMsg}</p>
+        )}
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
