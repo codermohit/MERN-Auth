@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({});
   const [errorData, setErrorData] = useState({ isError: false, errorMsg: "" });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -23,11 +24,11 @@ function SignUp() {
       //check for errors
       if (!res.ok) {
         const errorData = await res.json();
-        console.log(errorData);
         throw new Error(errorData?.errorMsg || "Something went wrong!");
       }
       //returned data from server
       //const data = await res.json();
+      navigate("/sign-in");
     } catch (error) {
       setErrorData((err) => ({
         ...err,
