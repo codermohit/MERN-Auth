@@ -4,6 +4,7 @@ import { useUser } from "../redux/user/useUser.js";
 
 function SignIn() {
   const [formData, setFormData] = useState({});
+
   const {
     loading,
     error: { isError, errorMsg },
@@ -11,6 +12,7 @@ function SignIn() {
     signInFailure,
     signInSuccess,
   } = useUser();
+
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -24,7 +26,7 @@ function SignIn() {
     e.preventDefault();
     try {
       signInStart();
-      console.log(formData);
+
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -32,13 +34,17 @@ function SignIn() {
         },
         body: JSON.stringify(formData),
       });
+
       if (!res.ok) {
-        const errorData = await res.json();
+        const errorData = (await res.json()) || {};
         throw new Error(errorData?.errorMsg || "Something went wrong!");
       }
+
       const data = await res.json();
       if (!data) throw new Error("No data found for the request");
+
       signInSuccess(data);
+
       navigate("/");
     } catch (error) {
       const err = { isError: true, errorMsg: error.message };
