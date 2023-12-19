@@ -4,7 +4,6 @@ import { useUser } from "../redux/user/useUser.js";
 
 function SignIn() {
   const [formData, setFormData] = useState({});
-
   const {
     loading,
     error: { isError, errorMsg },
@@ -12,7 +11,6 @@ function SignIn() {
     signInFailure,
     signInSuccess,
   } = useUser();
-
   const navigate = useNavigate();
 
   function handleChange(e) {
