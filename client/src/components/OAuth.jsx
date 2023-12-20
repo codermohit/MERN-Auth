@@ -19,7 +19,8 @@ function OAuth() {
         }),
       });
       const data = await res.json();
-      signInSuccess(data);
+      const userData = data.user || data;
+      signInSuccess(userData);
     } catch (error) {
       console.log("Google login error , ", error);
     }

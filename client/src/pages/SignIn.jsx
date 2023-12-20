@@ -41,8 +41,8 @@ function SignIn() {
 
       const data = await res.json();
       if (!data) throw new Error("No data found for the request");
-
-      signInSuccess(data);
+      const userData = data?.user || data;
+      signInSuccess(userData);
 
       navigate("/");
     } catch (error) {
