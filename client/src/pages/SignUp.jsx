@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 function SignUp() {
   const [formData, setFormData] = useState({});
@@ -75,6 +76,7 @@ function SignUp() {
         >
           Sign up
         </button>
+        <OAuth />
         {errorData.isError && (
           <p className="text-red-500">{errorData.errorMsg}</p>
         )}
