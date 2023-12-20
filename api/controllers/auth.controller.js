@@ -63,11 +63,11 @@ export const google = async (req, res) => {
 
     await newUser.save();
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-    const { password: hashedPassword2, ...rest } = newUser._doc;
+    const { password: hashedPassword2, ...user } = newUser._doc;
     const expiryDate = new Date(Date.now() + 3600000);
     res
       .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
       .status(200)
-      .json({ user: rest });
+      .json({ user });
   }
 };
