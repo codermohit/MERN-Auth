@@ -39,7 +39,7 @@ export const google = async (req, res) => {
     const { password: hashedPassword, ...rest } = user._doc;
     const expiryDate = new Date(Date.now() + 3600000);
     return res
-      .cookie("access_token", token, {
+      .cookie("accessToken", token, {
         httpOnly: true,
         expires: expiryDate,
       })
@@ -66,7 +66,7 @@ export const google = async (req, res) => {
     const { password: hashedPassword2, ...user } = newUser._doc;
     const expiryDate = new Date(Date.now() + 3600000);
     res
-      .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
+      .cookie("accessToken", token, { httpOnly: true, expires: expiryDate })
       .status(200)
       .json({ user });
   }
