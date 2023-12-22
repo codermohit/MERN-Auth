@@ -40,9 +40,24 @@ export const userSlice = createSlice({
       state.error = {
         isError : false, errorMsg : action.payload.errorMsg || "Something went wrong while updating the user"
       }
+    },
+    deleteUserStart : (state) => {
+      state.loading = true;
+      state.error = {isError : false, errorMsg : ""};
+    },
+    deleteUserSuccess : (state) => {
+      state.currentUser = null;
+      state.loading = false;
+    },
+    deleteUserFailure : (state, action) => {
+      state.loading = false;
+      //payload => an object {isError:bool, errorMsg : string 
+      state.error = {
+        isError : false, errorMsg : action.payload.errorMsg || "Something went wrong while updating the user"
+      }
     }
   },
 });
 
-export const { signInStart, signInFailure, signInSuccess, updateUserStart, updateUserSuccess, updateUserFailure } = userSlice.actions;
+export const { signInStart, signInFailure, signInSuccess, updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserFailure, deleteUserSuccess } = userSlice.actions;
 export default userSlice.reducer;

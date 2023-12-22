@@ -24,3 +24,12 @@ export const updateUser = async (req, res) => {
   const { password, ...user } = updatedUser._doc;
   res.status(200).json(user);
 };
+
+export const deleteUser = async (req, res) => {
+  if (req.user.id !== req.params.id) {
+    throw new Error("Unauthroized for this action");
+  }
+
+  await User.findByIdAndDelete(req.params.id);
+  res.status(200).json({ msg: "User has been deleted" });
+};

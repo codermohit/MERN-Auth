@@ -7,6 +7,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const {
@@ -16,6 +17,9 @@ function Profile() {
     updateUserStart,
     updateUserSuccess,
     updateUserFailure,
+    deleteUserStart,
+    deleteUserSuccess,
+    deleteUserFailure,
   } = useUser();
   const [image, setImage] = useState(undefined);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -23,6 +27,7 @@ function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const fileRef = useRef(false);
+  const navigate = useNavigate();
 
   //actions
 
@@ -86,6 +91,25 @@ function Profile() {
         errorMsg: error.message,
       };
       updateUserFailure(errorObj);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      deleteUserStart();
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok)
+        throw new Error(res.statusText || "Problem while deleting account");
+      deleteUserSuccess();
+      navigate("/sign-up");
+    } catch (error) {
+      const err = {
+        isError: true,
+        errorMsg: error.message || "Problem while deleting account",
+      };
+      deleteUserFailure(err);
     }
   };
 
@@ -153,7 +177,12 @@ function Profile() {
         {error.isError && <p>{error.errorMsg}</p>}
       </form>
       <div className="flex justify-between mt-3">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span
+          onClick={handleDeleteAccount}
+          className="text-red-700 cursor-pointer"
+        >
+          Delete Account
+        </span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
       {updateSuccess && (
