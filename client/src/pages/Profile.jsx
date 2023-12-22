@@ -20,6 +20,7 @@ function Profile() {
     deleteUserStart,
     deleteUserSuccess,
     deleteUserFailure,
+    signOutSuccess,
   } = useUser();
   const [image, setImage] = useState(undefined);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -113,6 +114,16 @@ function Profile() {
     }
   };
 
+  const handleSignout = async () => {
+    try {
+      await fetch("/api/auth/signout");
+      signOutSuccess();
+      navigate("/sign-in");
+    } catch (error) {
+      console.log("Failed while signing out : ", error.message);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -183,7 +194,9 @@ function Profile() {
         >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span onClick={handleSignout} className="text-red-700 cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateSuccess && (
         <p className="text-green-700 mt-3">User updated successfully</p>

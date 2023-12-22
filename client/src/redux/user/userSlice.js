@@ -23,41 +23,64 @@ export const userSlice = createSlice({
       //payload => an object {isError:bool, errorMsg : string }
       state.error = {
         isError: action.payload.isError,
-        errorMsg: action.payload.errorMsg || "Something went wrong while signing in!",
+        errorMsg:
+          action.payload.errorMsg || "Something went wrong while signing in!",
       };
     },
-    updateUserStart : (state) => {
+    updateUserStart: (state) => {
       state.loading = true;
-      state.error = {isError : false, errorMsg : ""};
+      state.error = { isError: false, errorMsg: "" };
     },
-    updateUserSuccess : (state, action) => {
+    updateUserSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
     },
-    updateUserFailure : (state, action) => {
+    updateUserFailure: (state, action) => {
       state.loading = false;
-      //payload => an object {isError:bool, errorMsg : string 
+      //payload => an object {isError:bool, errorMsg : string
       state.error = {
-        isError : false, errorMsg : action.payload.errorMsg || "Something went wrong while updating the user"
-      }
+        isError: false,
+        errorMsg:
+          action.payload.errorMsg ||
+          "Something went wrong while updating the user",
+      };
     },
-    deleteUserStart : (state) => {
+    deleteUserStart: (state) => {
       state.loading = true;
-      state.error = {isError : false, errorMsg : ""};
+      state.error = { isError: false, errorMsg: "" };
     },
-    deleteUserSuccess : (state) => {
+    deleteUserSuccess: (state) => {
       state.currentUser = null;
       state.loading = false;
     },
-    deleteUserFailure : (state, action) => {
+    deleteUserFailure: (state, action) => {
       state.loading = false;
-      //payload => an object {isError:bool, errorMsg : string 
+      //payload => an object {isError:bool, errorMsg : string
       state.error = {
-        isError : false, errorMsg : action.payload.errorMsg || "Something went wrong while updating the user"
-      }
-    }
+        isError: false,
+        errorMsg:
+          action.payload.errorMsg ||
+          "Something went wrong while updating the user",
+      };
+    },
+    signOutSuccess: (state) => {
+      state.loading = false;
+      state.currentUser = null;
+      state.error = { isError: false, errorMsg: "" };
+    },
   },
 });
 
-export const { signInStart, signInFailure, signInSuccess, updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserFailure, deleteUserSuccess } = userSlice.actions;
+export const {
+  signInStart,
+  signInFailure,
+  signInSuccess,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserStart,
+  deleteUserFailure,
+  deleteUserSuccess,
+  signOutSuccess,
+} = userSlice.actions;
 export default userSlice.reducer;

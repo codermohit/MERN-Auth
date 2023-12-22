@@ -10,6 +10,7 @@ import {
   deleteUserStart,
   deleteUserFailure,
   deleteUserSuccess,
+  signOutSuccess,
 } from "./userSlice.js";
 import { useSelector } from "react-redux";
 
@@ -27,6 +28,7 @@ export const useUser = () => {
     deleteUserStart,
     deleteUserFailure,
     deleteUserSuccess,
+    signOutSuccess,
   });
   return useMemo(() => {
     return { currentUser, loading, error, ...actions };
